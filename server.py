@@ -2,13 +2,13 @@ import threading
 import socket
 
 
-HOST = '10.19.49.126'
-PORT = 50000
+HOST = ''
+PORT = 59000
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s = socket.socket()
 s.bind((HOST,PORT))
-s.listen(5)
+s.listen()
 
 
 clients = []
@@ -39,9 +39,10 @@ def client_connection():
         print('Server is running and listenning.....')
         client_socket, address = s.accept()
         print(f'Connection is established with {str(address)}')
-        client_socket.send('Client Name ?'.encode("utf-8"))
+        client_socket.send('ClientName?'.encode("utf-8"))
         client_name = client_socket.recv(1024)
         client_names.append(client_name)
+        clients.append(client_socket)
         print(f'The recent client is {client_name}'.encode('utf-8'))
         broadcast(f'{client_name} has connected to the chat server'.encode('utf-8'))
         client_socket.send('You are now connected!'.encode('utf-8'))
